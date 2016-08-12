@@ -23,7 +23,7 @@
     },
     "autoload": {
         "psr-4": {
-            "AbuseIO\\FindContact\\Ripe\\": "src/"
+            "AbuseIO\\FindContact\\": "src/"
         }
     }
 }
