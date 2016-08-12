@@ -1,21 +1,25 @@
 {
     "name": "abuseio/findcontact-ripe",
     "description": "AbuseIO module for ip lookups in Ripe.",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "keywords": ["laravel", "abuseio", "findcontact", "ripe"],
     "homepage": "http://abuse.io",
     "type": "library",
     "license": "GPL-2.0",
     "authors": [
         {
-            "name": "Joost Vermeulen",
-            "email": "joost.vermeulen@tele2.com",
-            "homepage": "http://tele2.nl",
-            "role": "developer"
+            "name": "AbuseIO Foundation",
+            "email": "dev@abuse.io",
+            "homepage": "http://abuse.io",
+            "role": "Lead"
         }
     ],
     "support": {
-        "email": "joost.vermeulen@tele2.com"
+        "email": "dev@abuse.io",
+        "issues": "https://github.com/AbuseIO/AbuseIO/issues",
+        "irc": "irc://irc.freenode.net/abuseio",
+        "source": "https://github.com/AbuseIO/findcontact-phpipam",
+        "docs": "https://abuse.io/resources/documentation/"
     },
     "require": {
         "php": ">=5.5.9",
