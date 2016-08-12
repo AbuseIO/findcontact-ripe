@@ -86,7 +86,7 @@ class Ripe
             $xml = $responses[0];
 
             // get the net description as name
-            $name = (string) $xml->xpath("(//attribute[@name='descr'])[1]/@value")[0];
+            $name = (string) $xml->xpath("(//attribute[@name='netname'])[1]/@value")[0];
 
             // try if there is an 'abuse-mailbox' attribute on the top level
             $abusemailbox_xml = $xml->xpath("(//attribute[@name='abuse-mailbox'])[1]/@value");
