@@ -4,7 +4,7 @@ namespace AbuseIO\FindContact;
 
 use AbuseIO\Models\Account;
 use AbuseIO\Models\Contact;
-use RipeDB\Client;
+use RipeStat\AbuseContactFinder;
 use Log;
 
 /**
@@ -15,8 +15,8 @@ class Ripe
 {
     /**
      * Get the abuse email address registered for this ip.
-     * @param  string $ip   IPv4 Address
-     * @return object       Returns contact object or false.
+     * @param  string $ip IPv4 Address
+     * @return mixed Returns contact object or false.
      */
     public function getContactByIp($ip)
     {
@@ -29,27 +29,25 @@ class Ripe
 
                 // construct new contact
                 $result = new Contact();
-                $result->name        = $data['name'];
-                $result->reference   = $data['name'];
-                $result->email       = $data['abusemailbox'];
-                $result->enabled     = true;
+                $result->name = $data['name'];
+                $result->reference = $data['name'];
+                $result->email = $data['email'];
+                $result->enabled = true;
                 $result->auto_notify = config("Findcontact.findcontact-ripe.auto_notify");
-                $result->account_id  = Account::getSystemAccount()->id;
-                $result->api_host    = '';
+                $result->account_id = Account::getSystemAccount()->id;
+                $result->api_host = '';
             }
 
-        }
-        catch (\Exception $e)
-        {
-            Log::debug("Error while talking to the Ripe DB : " . $e->getMessage());
+        } catch (\Exception $e) {
+            Log::debug("Error while talking to the Ripe Stat API : " . $e->getMessage());
         }
         return $result;
     }
 
     /**
      * Get the email address registered for this domain.
-     * @param  string $ip   Domain name
-     * @return object       Returns contact object or false.
+     * @param  string $domain Domain name
+     * @return mixed Returns contact object or false.
      */
     public function getContactByDomain($domain)
     {
@@ -58,8 +56,8 @@ class Ripe
 
     /**
      * Get the email address registered for this ip.
-     * @param  string $id   ID/Contact reference
-     * @return object       Returns contact object or false.
+     * @param  string $id ID/Contact reference
+     * @return mixed Returns contact object or false.
      */
     public function getContactById($id)
     {
@@ -67,7 +65,7 @@ class Ripe
     }
 
     /**
-     * search the ip in the Ripe DB and if found, return the abusemailbox and name of the netowner
+     * search the ip using the ripe stat api and if found, return the abuse mailbox and network name
      *
      * @param $ip
      * @return array
@@ -75,51 +73,33 @@ class Ripe
     private function _getContactData($ip)
     {
         $data = [];
+        $name = null;
+        $email = null;
 
-        // test or production environment
-        $env = config("Findcontact.findcontact-ripe.environment");
-        $ripe = new Client($env);
+        // create a new AbuseContactFinder with the configged appid
+        $appid = config("Findcontact.findcontact-ripe.appid");
+        $finder = new AbuseContactFinder($appid);
 
-        $responses = $ripe->search([$ip]);
-        if (!empty($responses))
-        {
-            $xml = $responses[0];
+        $response = $finder->get($ip);
 
-            // get the net description as name
-            $name = (string) $xml->xpath("(//attribute[@name='netname'])[1]/@value")[0];
+        // check if the nessecary properties exist
+        if (isset($response->holder_info) && isset($response->holder_info->name)) {
+            $name = $response->holder_info->name;
+        }
 
-            // try if there is an 'abuse-mailbox' attribute on the top level
-            $abusemailbox_xml = $xml->xpath("(//attribute[@name='abuse-mailbox'])[1]/@value");
-
-            if (empty($abusemailbox_xml))
-            {
-                // loop over the tech and admin contacts to see if there is an abuse-mailbox
-                foreach( ['admin-c', 'tech-c'] as $contact )
-                {
-                    // get the contacts
-                    $contacts = $xml->xpath("(//attribute[@name='$contact'])[1]/@value");
-
-                    foreach ($contacts as $c)
-                    {
-                        $contact_responses = $ripe->search([$c]);
-                        $contact_xml = $contact_responses[0];
-
-                        $contact_abusemailbox_xml =
-                            $contact_xml->xpath("(//attribute[@name='abuse-mailbox'])[1]/@value");
-                        if (!empty($contact_abusemailbox_xml))
-                        {
-                            $abusemailbox_xml = $contact_abusemailbox_xml;
-                            break 2;
-                        }
-                    }
+        if (isset($response->anti_abuse_contacts) && isset($response->anti_abuse_contacts->abuse_c)) {
+            foreach ($response->anti_abuse_contacts->abuse_c as $abuse_c) {
+                if (isset($abuse_c->email)) {
+                    $email = $abuse_c->email;
+                    break;
                 }
             }
+        }
 
-            if (!empty($abusemailbox_xml)) {
-                // only fill the array if we have both attributes
-                $data['abusemailbox'] = (string) $abusemailbox_xml[0];
-                $data['name'] = $name;
-            }
+        // only create a result data if both email and name are set
+        if (!is_null($name) && !is_null($email)) {
+            $data['name'] = $name;
+            $data['email'] = $email;
         }
 
         return $data;

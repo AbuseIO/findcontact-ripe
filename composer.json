@@ -1,7 +1,7 @@
 {
     "name": "abuseio/findcontact-ripe",
     "description": "AbuseIO module for ip lookups in Ripe.",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "keywords": ["laravel", "abuseio", "findcontact", "ripe"],
     "homepage": "http://abuse.io",
     "type": "library",
@@ -23,7 +23,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "jover/ripe-db-query": "^0.1"
+        "jover/ripe-stat": "^0.1.0"
     },
     "autoload": {
         "psr-4": {

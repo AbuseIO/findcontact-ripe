@@ -2,7 +2,9 @@
 
 return [
     'findcontact-ripe' => [
-        'environment'    => 'production',   // ripe db environment'test' or 'production'
+        // it is highly recommended to use an appid in production environments
+        // see https://stat.ripe.net/docs/data_api
+        'appid'          => null,
         'enabled'        => true,
         'auto_notify'    => false,
     ],
