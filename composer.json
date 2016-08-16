@@ -23,7 +23,7 @@
     },
     "require": {
         "php": ">=5.5.9",
-        "jover/ripe-stat": "^0.1.0"
+        "jover/ripe-stat": "0.1.*"
     },
     "autoload": {
         "psr-4": {

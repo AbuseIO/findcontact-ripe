@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "8d972b9c55fb594220435a161045db79",
-    "content-hash": "cb284e42a24233fbd14f0c32873a8f88",
+    "hash": "29999a75cb6ef90d9b7e19a3187c9c16",
+    "content-hash": "e49b7d1f5e57db2c5254a2a301fe54d1",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -35,54 +35,17 @@
             "time": "2014-12-30 15:22:37"
         },
         {
-            "name": "jover/ripe-db-query",
-            "version": "0.1.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/joverthegrey/RipeDB.git",
-                "reference": "dfb68012ffee1283b64b7f34ebfc2373facf049e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/joverthegrey/RipeDB/zipball/dfb68012ffee1283b64b7f34ebfc2373facf049e",
-                "reference": "dfb68012ffee1283b64b7f34ebfc2373facf049e",
-                "shasum": ""
-            },
-            "require": {
-                "zendframework/zend-http": "^2.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "RipeDB\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Joost Vermeulen",
-                    "email": "joost@jover.net",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Simple wrapper for Ripe DB RESTlike search queries, it returns a SimpleXMLElement",
-            "time": "2016-08-10 14:20:45"
-        },
-        {
             "name": "jover/ripe-stat",
-            "version": "0.1.0",
+            "version": "0.1.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/joverthegrey/RipeStat.git",
-                "reference": "c0e5af4a9cb47da0641ae3857c630ef9324a3197"
+                "reference": "10f317a011289b78d1d87ca942bee8469a08fc1e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/joverthegrey/RipeStat/zipball/c0e5af4a9cb47da0641ae3857c630ef9324a3197",
-                "reference": "c0e5af4a9cb47da0641ae3857c630ef9324a3197",
+                "url": "https://api.github.com/repos/joverthegrey/RipeStat/zipball/10f317a011289b78d1d87ca942bee8469a08fc1e",
+                "reference": "10f317a011289b78d1d87ca942bee8469a08fc1e",
                 "shasum": ""
             },
             "require": {
@@ -107,7 +70,7 @@
                 }
             ],
             "description": "Wrapper for the Ripe Stat API",
-            "time": "2016-08-15 11:02:07"
+            "time": "2016-08-16 09:14:13"
         },
         {
             "name": "zendframework/zend-escaper",
